@@ -15,15 +15,17 @@ EnvironmentFile=-%S/state/smarthost.env
 WorkingDirectory=%S/state
 Restart=always
 TimeoutStopSec=70
-ExecStartPre=/bin/mkdir -p headscale-{data,config}
+ExecStartPre=/bin/mkdir -p {headplane,headscale}-data
 ExecStartPre=/bin/rm -f %t/headscale-app.pid %t/headscale-app.ctr-id
 ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/headscale-app.pid \
     --cidfile %t/headscale-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/headscale.pod-id --replace -d --name  headscale-app \
-    --volume ./headscale-data:/var/lib/headscale:Z
-    --volume ./headscale-config:/etc/headscale:z
-    ${NGINX_IMAGE}
+    --volume ./config.yaml:/etc/headplane/config.yaml:Z \
+    --volume ./headscale-config/config.yaml:/etc/headscale/config.yaml:z \
+    --volume ./headplane-data:/var/lib/headplane:Z \
+#    --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+    ${HEADPLANE_IMAGE} serve
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/headscale-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP headscale-app
 SyslogIdentifier=%u
