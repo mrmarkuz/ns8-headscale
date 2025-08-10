@@ -1,17 +1,12 @@
 #
-# Copyright (C) 2022 Nethesis S.r.l.
+# Copyright (C) 2025 Nethesis S.r.l.
 # SPDX-License-Identifier: GPL-3.0-or-later
-#
-
-#
-# This systemd unit starts a headscale instance using Podman.
-# Most parts of this file come from podman-generate-systemd.
 #
 
 [Unit]
 Description=Podman headscale.service
-Requires=headscale-app.service
-Before=headscale-app.service
+Requires=headscale-app.service headscale-ui.service
+Before=headscale-app.service headscale-ui.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
@@ -22,8 +17,8 @@ ExecStartPre=/bin/rm -f %t/headscale.pid %t/headscale.pod-id
 ExecStartPre=/usr/bin/podman pod create --infra-conmon-pidfile %t/headscale.pid \
     --pod-id-file %t/headscale.pod-id \
     --name headscale \
-    --publish 127.0.0.1:${TCP_PORT}:3000 \
-    --publish 8080:8080 \
+    --publish 127.0.0.1:${HEADSCALE_TCP_PORT}:8080 \
+    --publish 127.0.0.1:${HEADSCALE_UI_TCP_PORT}:8081 \
     --replace
 ExecStart=/usr/bin/podman pod start --pod-id-file %t/headscale.pod-id
 ExecStop=/usr/bin/podman pod stop --ignore --pod-id-file %t/headscale.pod-id -t 10

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2022 Nethesis S.r.l.
+# Copyright (C) 2025 Nethesis S.r.l.
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
@@ -15,15 +15,15 @@ EnvironmentFile=-%S/state/smarthost.env
 WorkingDirectory=%S/state
 Restart=always
 TimeoutStopSec=70
-ExecStartPre=/bin/mkdir -p headscale-{data,config}
+ExecStartPre=/bin/mkdir -p headscale-data headscale-config
 ExecStartPre=/bin/rm -f %t/headscale-app.pid %t/headscale-app.ctr-id
 ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/headscale-app.pid \
     --cidfile %t/headscale-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/headscale.pod-id --replace -d --name  headscale-app \
-    --volume ./headscale-data:/var/lib/headscale:Z
-    --volume ./headscale-config:/etc/headscale:z
-    ${NGINX_IMAGE}
+    --volume headscale-data:/var/lib/headscale:z \
+    --volume ./config.yaml:/etc/headscale/config.yaml:z \
+    ${HEADSCALE_IMAGE} serve
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/headscale-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP headscale-app
 SyslogIdentifier=%u
@@ -33,3 +33,4 @@ Type=forking
 
 [Install]
 WantedBy=default.target
+

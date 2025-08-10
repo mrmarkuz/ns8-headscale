@@ -1,0 +1,35 @@
+#
+# Copyright (C) 2025 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+[Unit]
+Description=Podman  headscale-ui.service
+BindsTo=headscale.service
+After=headscale.service
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+EnvironmentFile=%S/state/environment
+EnvironmentFile=-%S/state/smarthost.env
+WorkingDirectory=%S/state
+Restart=always
+TimeoutStopSec=70
+ExecStartPre=/bin/mkdir -p headscale-data headscale-config
+ExecStartPre=/bin/rm -f %t/headscale-ui.pid %t/headscale-ui.ctr-id
+ExecStartPre=-runagent discover-smarthost
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/headscale-ui.pid \
+    --cidfile %t/headscale-ui.ctr-id --cgroups=no-conmon \
+    --pod-id-file %t/headscale.pod-id --replace -d --name  headscale-ui \
+    --volume ./config.yaml:/etc/headscale/config.yaml:z \
+    --env HTTP_PORT=8081 \
+    ${HEADSCALE_UI_IMAGE}
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/headscale-ui.ctr-id -t 10
+ExecReload=/usr/bin/podman kill -s HUP headscale-ui
+SyslogIdentifier=%u
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/headscale-ui.ctr-id
+PIDFile=%t/headscale-ui.pid
+Type=forking
+
+[Install]
+WantedBy=default.target
