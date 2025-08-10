@@ -15,7 +15,6 @@ EnvironmentFile=-%S/state/smarthost.env
 WorkingDirectory=%S/state
 Restart=always
 TimeoutStopSec=70
-ExecStartPre=/bin/mkdir -p headscale-data headscale-config
 ExecStartPre=/bin/rm -f %t/headscale-app.pid %t/headscale-app.ctr-id
 ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/headscale-app.pid \
@@ -33,4 +32,3 @@ Type=forking
 
 [Install]
 WantedBy=default.target
-
