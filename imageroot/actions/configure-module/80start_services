@@ -14,4 +14,4 @@ exec 1>&2
 touch smarthost.env
 
 systemctl --user enable headscale.service
-systemctl --user restart headscale.service
+systemctl --user restart headscale.service headscale-app.service headscale-ui.service
