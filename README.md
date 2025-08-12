@@ -21,7 +21,9 @@ Output example:
 
       runagent -m headscale1 podman exec -ti headscale-app headscale apikeys create
 
-- Setup the API key and the FQDN in headscale UI.
+- Setup the API key and the FQDN in headscale UI
+
+- It's possible to secure the /web path for headscale1-web by adding address restrictions in the HTTP routes
 
 
 ## Uninstall
