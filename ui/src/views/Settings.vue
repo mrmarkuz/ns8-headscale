@@ -61,11 +61,47 @@
                 $t("settings.enabled")
               }}</template>
             </cv-toggle>
-              <!-- advanced options -->
+            <!-- advanced options -->
             <cv-accordion ref="accordion" class="maxwidth mg-bottom">
               <cv-accordion-item :open="toggleAccordion[0]">
                 <template slot="title">{{ $t("settings.advanced") }}</template>
                 <template slot="content">
+                  <cv-text-input
+                    :label="$t('settings.issuer')"
+                    placeholder="https://your-oidc.issuer.com/path"
+                    v-model.trim="issuer"
+                    class="mg-bottom"
+                    :invalid-message="$t(error.issuer)"
+                    :disabled="
+                      loading.getConfiguration || loading.configureModule
+                    "
+                    ref="issuer"
+                  >
+                  </cv-text-input>
+                  <cv-text-input
+                    :label="$t('settings.client_id')"
+                    placeholder=""
+                    v-model.trim="client_id"
+                    class="mg-bottom"
+                    :invalid-message="$t(error.client_id)"
+                    :disabled="
+                      loading.getConfiguration || loading.configureModule
+                    "
+                    ref="client_id"
+                  >
+                  </cv-text-input>
+                  <cv-text-input
+                    :label="$t('settings.client_secret')"
+                    placeholder=""
+                    v-model.trim="client_secret"
+                    class="mg-bottom"
+                    :invalid-message="$t(error.client_secret)"
+                    :disabled="
+                      loading.getConfiguration || loading.configureModule
+                    "
+                    ref="client_secret"
+                  >
+                  </cv-text-input>
                 </template>
               </cv-accordion-item>
             </cv-accordion>
