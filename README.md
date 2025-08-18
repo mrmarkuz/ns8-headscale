@@ -23,7 +23,7 @@ Output example:
 
 - Setup the API key and the FQDN in headscale UI
 
-- It's possible to secure the /web path for headscale1-web by adding address restrictions in the HTTP routes
+- It's possible to secure the Headscale UI /web path by adding address restrictions in the HTTP route `headscale1-web`
 
 
 ## Uninstall
