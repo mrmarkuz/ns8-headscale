@@ -43,6 +43,20 @@
               ref="base_domain"
             >
             </cv-text-input>
+            <cv-toggle
+              value="dns_override"
+              :label="$t('settings.dns_override')"
+              v-model="dns_override"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $t("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $t("settings.enabled")
+              }}</template>
+            </cv-toggle>
             <cv-text-input
               :label="$t('settings.dns_list')"
               placeholder="1.1.1.1,1.0.0.1,2606:4700:4700::1111,2606:4700:4700::1001"
@@ -204,6 +218,7 @@ export default {
       urlCheckInterval: null,
       host: "",
       base_domain: "",
+      dns_override: "",
       dns_list: "",
       split_dns_list: "",
       isLetsEncryptEnabled: false,
@@ -221,6 +236,7 @@ export default {
         configureModule: "",
         host: "",
         base_domain: "",
+        dns_override: "",
         dns_list: "",
         split_dns_list: "",
         lets_encrypt: "",
@@ -295,6 +311,7 @@ export default {
       const config = taskResult.output;
       this.host = config.host;
       this.base_domain = config.base_domain;
+      this.dns_override = config.dns_override;
       this.dns_list = config.dns_list;
       this.split_dns_list = config.split_dns_list;
       this.isLetsEncryptEnabled = config.lets_encrypt;
@@ -381,6 +398,7 @@ export default {
           data: {
             host: this.host,
             base_domain: this.base_domain,
+            dns_override: this.dns_override,
             dns_list: this.dns_list,
             split_dns_list: this.split_dns_list,
             lets_encrypt: this.isLetsEncryptEnabled,

@@ -47,7 +47,8 @@
     "write_dns_list": "One entry per line",
     "split_dns_list": "Split DNS",
     "write_split_dns_list": "One entry per line",
-    "pkce": "Enable PKCE"
+    "pkce": "Enable PKCE",
+    "dns_override": "Override local DNS"
   },
   "about": {
     "title": "About"

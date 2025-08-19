@@ -14,6 +14,7 @@ import agent
 data = json.load(sys.stdin)
 
 agent.set_env("BASE_DOMAIN",data.get("base_domain",""))
+agent.set_env("DNS_OVERRIDE",data.get("dns_override",""))
 agent.set_env("DNS_LIST",data.get("dns_list"))
 agent.set_env("SPLIT_DNS_LIST",data.get("split_dns_list"))
 agent.set_env("ISSUER",data.get("issuer",""))

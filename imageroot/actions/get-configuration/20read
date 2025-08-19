@@ -20,6 +20,7 @@ config = {}
 # Read current configuration from the environment file
 config["host"] = os.getenv("TRAEFIK_HOST","")
 config["base_domain"] = os.getenv("BASE_DOMAIN","")
+config["dns_override"] = os.getenv("DNS_OVERRIDE") == "True"
 config["dns_list"] = os.getenv("DNS_LIST","")
 config["split_dns_list"] = os.getenv("SPLIT_DNS_LIST","")
 config["http2https"] = os.getenv("TRAEFIK_HTTP2HTTPS") == "True"
