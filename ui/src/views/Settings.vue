@@ -218,7 +218,7 @@ export default {
       urlCheckInterval: null,
       host: "",
       base_domain: "",
-      dns_override: "",
+      dns_override: false,
       dns_list: "",
       split_dns_list: "",
       isLetsEncryptEnabled: false,
