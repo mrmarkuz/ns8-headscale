@@ -16,6 +16,7 @@ TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/headscale.pid %t/headscale.pod-id
 ExecStartPre=/usr/bin/podman pod create --infra-conmon-pidfile %t/headscale.pid \
     --pod-id-file %t/headscale.pod-id \
+    --network=slirp4netns:allow_host_loopback=true \
     --name headscale \
     --publish 127.0.0.1:${HEADSCALE_TCP_PORT}:8080 \
     --publish 127.0.0.1:${HEADSCALE_UI_TCP_PORT}:8081 \

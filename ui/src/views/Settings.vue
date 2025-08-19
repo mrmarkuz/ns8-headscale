@@ -33,6 +33,36 @@
               ref="host"
             >
             </cv-text-input>
+            <cv-text-input
+              :label="$t('settings.base_domain')"
+              placeholder="example.org"
+              v-model.trim="base_domain"
+              class="mg-bottom"
+              :invalid-message="$t(error.base_domain)"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              ref="base_domain"
+            >
+            </cv-text-input>
+            <cv-text-input
+              :label="$t('settings.dns_list')"
+              placeholder="1.1.1.1,1.0.0.1,2606:4700:4700::1111,2606:4700:4700::1001"
+              v-model.trim="dns_list"
+              class="mg-bottom"
+              :invalid-message="$t(error.dns_list)"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              ref="dns_list"
+            >
+            </cv-text-input>
+            <cv-text-input
+              :label="$t('settings.split_dns_list')"
+              placeholder="example.com:1.1.1.1,lan.local:192.168.0.1"
+              v-model.trim="split_dns_list"
+              class="mg-bottom"
+              :invalid-message="$t(error.split_dns_list)"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              ref="split_dns_list"
+            >
+            </cv-text-input>
             <cv-toggle
               value="letsEncrypt"
               :label="$t('settings.lets_encrypt')"
@@ -159,6 +189,9 @@ export default {
       },
       urlCheckInterval: null,
       host: "",
+      base_domain: "",
+      dns_list: "",
+      split_dns_list: "",
       isLetsEncryptEnabled: false,
       isHttpToHttpsEnabled: true,
       issuer: "",
@@ -172,6 +205,9 @@ export default {
         getConfiguration: "",
         configureModule: "",
         host: "",
+        base_domain: "",
+        dns_list: "",
+        split_dns_list: "",
         lets_encrypt: "",
         http2https: "",
         issuer: "",
@@ -242,6 +278,9 @@ export default {
     getConfigurationCompleted(taskContext, taskResult) {
       const config = taskResult.output;
       this.host = config.host;
+      this.base_domain = config.base_domain;
+      this.dns_list = config.dns_list;
+      this.split_dns_list = config.split_dns_list;
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
       this.issuer = config.issuer;
@@ -263,6 +302,16 @@ export default {
         }
         isValidationOk = false;
       }
+
+      if (!this.base_domain) {
+        this.error.base_domain = "common.required";
+
+        if (isValidationOk) {
+          this.focusElement("base_domain");
+        }
+        isValidationOk = false;
+      }
+
       return isValidationOk;
     },
     configureModuleValidationFailed(validationErrors) {
@@ -314,6 +363,9 @@ export default {
           action: taskAction,
           data: {
             host: this.host,
+            base_domain: this.base_domain,
+            dns_list: this.dns_list,
+            split_dns_list: this.split_dns_list,
             lets_encrypt: this.isLetsEncryptEnabled,
             http2https: this.isHttpToHttpsEnabled,
             issuer: this.issuer,
