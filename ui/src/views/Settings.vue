@@ -35,7 +35,7 @@
             </cv-text-input>
             <cv-text-input
               :label="$t('settings.base_domain')"
-              placeholder="example.org"
+              placeholder="tailscale.domain"
               v-model.trim="base_domain"
               class="mg-bottom"
               :invalid-message="$t(error.base_domain)"
@@ -59,7 +59,7 @@
             </cv-toggle>
             <cv-text-input
               :label="$t('settings.dns_list')"
-              placeholder="1.1.1.1,1.0.0.1,2606:4700:4700::1111,2606:4700:4700::1001"
+              placeholder="[1.1.1.1,1.0.0.1,2606:4700:4700::1111,2606:4700:4700::1001]"
               v-model.trim="dns_list"
               class="mg-bottom"
               :invalid-message="$t(error.dns_list)"
@@ -69,7 +69,7 @@
             </cv-text-input>
             <cv-text-input
               :label="$t('settings.split_dns_list')"
-              placeholder="example.com:1.1.1.1,lan.local:192.168.0.1"
+              placeholder="{tailscale.domain: [1.1.1.1],lan.local: [192.168.0.1]}"
               v-model.trim="split_dns_list"
               class="mg-bottom"
               :invalid-message="$t(error.split_dns_list)"
