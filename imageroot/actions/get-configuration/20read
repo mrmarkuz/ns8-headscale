@@ -27,6 +27,7 @@ config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
 config["issuer"] = os.getenv("ISSUER","")
 config["client_id"] = os.getenv("CLIENT_ID","")
 config["client_secret"] = os.getenv("CLIENT_SECRET","")
+config["pkce"] = os.getenv("PKCE") == "True"
 
 # Dump the configuration to stdout
 json.dump(config, fp=sys.stdout)

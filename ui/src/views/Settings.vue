@@ -132,6 +132,20 @@
                     ref="client_secret"
                   >
                   </cv-text-input>
+                  <cv-toggle
+                    value="pkce"
+                    :label="$t('settings.pkce')"
+                    v-model="pkce"
+                    :disabled="loading.getConfiguration || loading.configureModule"
+                    class="mg-bottom"
+                  >
+                  <template slot="text-left">{{
+                    $t("settings.disabled")
+                  }}</template>
+                  <template slot="text-right">{{
+                    $t("settings.enabled")
+                  }}</template>
+                  </cv-toggle>
                 </template>
               </cv-accordion-item>
             </cv-accordion>
@@ -197,6 +211,7 @@ export default {
       issuer: "",
       client_id: "",
       client_secret: "",
+      pkce: false,
       loading: {
         getConfiguration: false,
         configureModule: false,
@@ -213,6 +228,7 @@ export default {
         issuer: "",
         client_id: "",
         client_secret: "",
+        pkce: "",
       },
     };
   },
@@ -286,6 +302,7 @@ export default {
       this.issuer = config.issuer;
       this.client_id = config.client_id;
       this.client_secret = config.client_secret;
+      this.pkce = config.pkce;
 
       this.loading.getConfiguration = false;
       this.focusElement("host");
@@ -371,6 +388,7 @@ export default {
             issuer: this.issuer,
             client_id: this.client_id,
             client_secret: this.client_secret,
+            pkce: this.pkce,
           },
           extra: {
             title: this.$t("settings.instance_configuration", {

@@ -46,7 +46,8 @@
     "dns_list": "Magic DNS nameservers",
     "write_dns_list": "One entry per line",
     "split_dns_list": "Split DNS",
-    "write_split_dns_list": "One entry per line"
+    "write_split_dns_list": "One entry per line",
+    "pkce": "Enable PKCE"
   },
   "about": {
     "title": "About"
