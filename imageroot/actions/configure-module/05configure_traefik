@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import json
+import sys
+import agent
+import os
+
+# Try to parse the stdin as JSON.
+# If parsing fails, output everything to stderr
+data = json.load(sys.stdin)
+
+# Setup default values
+host = data["host"]
+h2hs = data.get("http2https", True)
+
+env_tcp_ports = os.environ["TCP_PORTS"].split(',')
+headscale_tcp_port = env_tcp_ports[0]
+headscale_ui_tcp_port = env_tcp_ports[1]
+headplane_tcp_port = env_tcp_ports[2]
+# Talk with agent using file descriptor.
+# Setup configuration from user input.
+agent.set_env("HEADSCALE_TCP_PORT", headscale_tcp_port)
+agent.set_env("HEADSCALE_UI_TCP_PORT", headscale_ui_tcp_port)
+agent.set_env("HEADPLANE_TCP_PORT", headplane_tcp_port)
+
+# Configure Traefik route for headscale
+set_route_data = {
+    'instance': os.environ['MODULE_ID'],
+    'url':  'http://127.0.0.1:' + headscale_tcp_port,
+    'host': host,
+    'path': None,
+    'http2https': h2hs,
+    'lets_encrypt_check': True,
+    'lets_encrypt_cleanup': True,
+}
+if 'lets_encrypt' in data:
+    set_route_data['lets_encrypt'] = data['lets_encrypt']
+
+agent.set_route(set_route_data)
+
+# Configure Traefik route for headscale-ui
+set_route_data = {
+    'instance': os.environ['MODULE_ID']+'-web',
+    'url':  'http://127.0.0.1:' + headscale_ui_tcp_port,
+    'host': host,
+    'path': '/web',
+    'http2https': h2hs,
+    'lets_encrypt_check': True,
+    'lets_encrypt_cleanup': True,
+}
+if 'lets_encrypt' in data:
+    set_route_data['lets_encrypt'] = data['lets_encrypt']
+
+agent.set_route(set_route_data)
+
+# Configure Traefik route for headplane
+set_route_data = {
+    'instance': os.environ['MODULE_ID']+'-headplane',
+    'url':  'http://127.0.0.1:' + headplane_tcp_port,
+    'host': host,
+    'path': '/admin',
+    'http2https': h2hs,
+    'lets_encrypt_check': True,
+    'lets_encrypt_cleanup': True,
+}
+if 'lets_encrypt' in data:
+    set_route_data['lets_encrypt'] = data['lets_encrypt']
+
+agent.set_route(set_route_data)

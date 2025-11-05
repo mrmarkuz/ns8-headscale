@@ -1,0 +1,34 @@
+#
+# Copyright (C) 2025 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+[Unit]
+Description=Podman  headplane.service
+BindsTo=headscale.service
+After=headscale.service headscale-app.service
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+EnvironmentFile=%S/state/environment
+EnvironmentFile=-%S/state/smarthost.env
+WorkingDirectory=%S/state
+Restart=always
+TimeoutStopSec=70
+ExecStartPre=/bin/rm -f %t/headplane.pid %t/headplane.ctr-id
+ExecStartPre=-runagent discover-smarthost
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/headplane.pid \
+    --cidfile %t/headplane.ctr-id --cgroups=no-conmon \
+    --pod-id-file %t/headscale.pod-id --replace -d --name  headplane \
+    --volume headplane-data:/var/lib/headplane:z \
+    --volume ./config.yaml:/etc/headplane/config.yaml:z \
+    ${HEADPLANE_IMAGE}
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/headplane.ctr-id -t 10
+ExecReload=/usr/bin/podman kill -s HUP headplane
+SyslogIdentifier=%u
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/headplane.ctr-id
+PIDFile=%t/headplane.pid
+Type=forking
+
+[Install]
+WantedBy=default.target
