@@ -21,7 +21,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/headplane.pid \
     --cidfile %t/headplane.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/headscale.pod-id --replace -d --name  headplane \
     --volume headplane-data:/var/lib/headplane:z \
-    --volume ./config.yaml:/etc/headplane/config.yaml:z \
+    --volume ./config-headplane.yaml:/etc/headplane/config.yaml:z \
     ${HEADPLANE_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/headplane.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP headplane
