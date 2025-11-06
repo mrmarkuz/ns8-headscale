@@ -5,8 +5,8 @@
 
 [Unit]
 Description=Podman headscale.service
-Requires=headscale-app.service headscale-ui.service
-Before=headscale-app.service headscale-ui.service
+Requires=headscale-app.service headscale-ui.service headplane.service
+Before=headscale-app.service headscale-ui.service headplane.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
