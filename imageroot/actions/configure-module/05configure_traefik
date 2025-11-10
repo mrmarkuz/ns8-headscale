@@ -18,7 +18,9 @@ data = json.load(sys.stdin)
 host = data["host"]
 h2hs = data.get("http2https", True)
 
-env_tcp_ports = os.environ["TCP_PORTS"].split(',')
+#env_tcp_ports = os.environ["TCP_PORTS"].split(',')
+env_tcp_ports = agent.allocate_ports(3, "tcp")
+
 headscale_tcp_port = env_tcp_ports[0]
 headscale_ui_tcp_port = env_tcp_ports[1]
 headplane_tcp_port = env_tcp_ports[2]
