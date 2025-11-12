@@ -5,8 +5,8 @@
 
 [Unit]
 Description=Podman headscale.service
-Requires=headscale-app.service headscale-ui.service headplane.service
-Before=headscale-app.service headscale-ui.service headplane.service
+Requires=headscale-app.service headplane.service
+Before=headscale-app.service headplane.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
@@ -19,7 +19,7 @@ ExecStartPre=/usr/bin/podman pod create --infra-conmon-pidfile %t/headscale.pid 
     --network=slirp4netns:allow_host_loopback=true \
     --name headscale \
     --publish 127.0.0.1:${HEADSCALE_TCP_PORT}:8080 \
-    --publish 127.0.0.1:${HEADSCALE_UI_TCP_PORT}:8081 \
+#    --publish 127.0.0.1:${HEADSCALE_UI_TCP_PORT}:8081 \
     --publish 127.0.0.1:${HEADPLANE_TCP_PORT}:3000 \
     --replace
 ExecStart=/usr/bin/podman pod start --pod-id-file %t/headscale.pod-id
