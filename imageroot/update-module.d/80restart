@@ -12,4 +12,5 @@ set -e
 # Redirect any output to the journal (stderr)
 exec 1>&2
 
+systemctl --user is-active headplane -q || systemctl --user start headplane.service
 systemctl --user try-restart headscale.service
