@@ -12,5 +12,11 @@ set -e
 # Redirect any output to the journal (stderr)
 exec 1>&2
 
+# Remove old service
+if [ -f ../systemd/user/headscale-ui.service ]; then
+    systemctl --user stop headscale-ui.service
+    rm ../systemd/user/headscale-ui.service
+fi
+
 systemctl --user is-active headplane -q || systemctl --user start headplane.service
 systemctl --user try-restart headscale.service
