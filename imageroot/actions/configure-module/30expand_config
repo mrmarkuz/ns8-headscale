@@ -245,7 +245,7 @@ log:
 policy:
   # The mode can be "file" or "database" that defines
   # where the ACL policies are stored and read from.
-  mode: file
+  mode: database
   # If the mode is set to "file", the path to a
   # HuJSON file containing ACL policies.
   path: ""
@@ -576,7 +576,7 @@ integration:
 # OIDC Configuration for simpler authentication
 # (This is optional, but recommended for the best experience)
 oidc:
-  issuer: "https://accounts.google.com"
+  issuer: "${ISSUER}"
 
   # If your OIDC provider does not support discovery (does not have the URL at
   # `/.well-known/openid-configuration`), you need to manually set endpoints.
@@ -593,11 +593,11 @@ oidc:
   # you are using for Headscale. A lot of OIDC providers will use different
   # subjects per user based on the client_id and for this to work correctly
   # they need to be identical between Headscale and Headplane.
-  client_id: "your-client-id"
+  client_id: "${CLIENT_ID}"
 
   # The client secret for the OIDC client
   # Either this or `client_secret_path` must be set for OIDC to work
-  client_secret: "<your-client-secret>"
+  client_secret: "${CLIENT_SECRET}"
   # You can alternatively set `client_secret_path` to read the secret from disk.
   # The path specified can resolve environment variables, making integration
   # with systemd's `LoadCredential` straightforward:
@@ -620,7 +620,7 @@ oidc:
   #
   # This should point to your publicly accessibly URL
   # for your Headplane instance with /admin/oidc/callback
-  redirect_uri: "http://localhost:3000/admin/oidc/callback"
+  redirect_uri: "https://${TRAEFIK_HOST}/admin/oidc/callback"
 
   # By default profile pictures are pulled from the OIDC provider when
   # we go to fetch the userinfo endpoint. Optionally, this can be set to
