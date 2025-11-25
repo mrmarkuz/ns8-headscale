@@ -32,3 +32,11 @@ if headscale_ui_tcp_port:
     set_route_data['lets_encrypt'] = agent.get_route(os.environ['MODULE_ID']).get('lets_encrypt', False)
     agent.set_route(set_route_data)
     agent.unset_env("HEADSCALE_UI_TCP_PORT")
+    # Remove headscale ui traefik route
+    response = agent.tasks.run(
+        agent_id=agent.resolve_agent_id('traefik@node'),
+        action='delete-route',
+        data={
+            'instance': os.environ['MODULE_ID'] + '-web'
+        },
+    )
