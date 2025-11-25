@@ -21,9 +21,13 @@ Output example:
 
       runagent -m headscale1 podman exec -ti headscale-app headscale apikeys create
 
-- Setup the API key and the FQDN in headscale UI
+- Setup the API key and the FQDN in headscale UI for versions <= 1.0.4
+
+- Setup the API key or OIDC for Headplane for versions >= 1.0.5
 
 - It's possible to secure the Headscale UI /web path by adding address restrictions in the HTTP route `headscale1-web`
+
+- To secure Headplane /admin path, address restrictions can be added to the HTTP route `headscale1-headplane`
 
 
 ## Uninstall
