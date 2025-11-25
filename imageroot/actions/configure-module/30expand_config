@@ -423,9 +423,13 @@ else
   echo "HEADPLANE_SECRET=$HEADPLANE_SECRET" >> environment
 fi
 
+# Check if oidc should be enabled for headplane
 
-
-
+if [ -n "${ISSUER}" ]; then
+  OIDC="oidc:"
+else
+  OIDC="#oidc:"
+fi
 
 # Headplane config #############################################################################################################################
 
@@ -575,7 +579,7 @@ integration:
 
 # OIDC Configuration for simpler authentication
 # (This is optional, but recommended for the best experience)
-oidc:
+${OIDC}
   issuer: "${ISSUER}"
 
   # If your OIDC provider does not support discovery (does not have the URL at
