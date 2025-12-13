@@ -1,0 +1,54 @@
+#!/bin/bash
+
+configure-headscale
+
+# Edit configuration file config.yaml for headscale
+
+# server_url
+sed -i "s!server_url:.*!server_url: \"https://${TRAEFIK_HOST}\"!" config.yaml
+
+# base_domain
+sed -i "s!base_domain:.*!base_domain: \"${BASE_DOMAIN}\"!" config.yaml
+
+# dns_list
+if [ -n "${DNS_LIST}" ]; then
+  sed -i "s!global:.*!global: ${DNS_LIST}!" config.yaml
+else
+  sed -i "s!global:.*!global: \[\]!" config.yaml
+fi
+
+# split_dns_list
+if [ -n "${SPLIT_DNS_LIST}" ]; then
+  sed -i "s!split:.*!split: ${SPLIT_DNS_LIST}!" config.yaml
+else
+  sed -i "s!split:.*!split: \{\}!" config.yaml
+fi
+
+# issuer
+sed -i "s!issuer:.*!issuer: \"${ISSUER}\"!" config.yaml
+
+# client_id
+sed -i "s!client_id:.*!client_id: \"${CLIENT_ID}\"!" config.yaml
+
+# client_secret
+sed -i "s!client_secret:.*!client_secret: \"${CLIENT_SECRET}\"!" config.yaml
+
+
+# Headplane config
+
+# Generate secret ##############################################################################################################################
+
+if grep -q "HEADPLANE_SECRET" environment; then
+  echo "Headplane secret already exists"
+else
+  export HEADPLANE_SECRET=$(openssl rand -hex 16)
+  echo "HEADPLANE_SECRET=$HEADPLANE_SECRET" >> environment
+fi
+
+# Check if oidc should be enabled for headplane
+
+if [ -n "${ISSUER}" ]; then
+  OIDC="oidc:"
+else
+  OIDC="#oidc:"
+fi
