@@ -24,7 +24,7 @@ config["dns_override"] = os.getenv("DNS_OVERRIDE") == "True"
 config["dns_list"] = os.getenv("DNS_LIST","")
 config["split_dns_list"] = os.getenv("SPLIT_DNS_LIST","")
 config["http2https"] = os.getenv("TRAEFIK_HTTP2HTTPS") == "True"
-config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
+config["lets_encrypt"] = agent.get_route(os.environ['MODULE_ID']).get('lets_encrypt', False)
 config["issuer"] = os.getenv("ISSUER","")
 config["client_id"] = os.getenv("CLIENT_ID","")
 config["client_secret"] = os.getenv("CLIENT_SECRET","")
