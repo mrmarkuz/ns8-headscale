@@ -40,7 +40,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.tcp-ports-demand=2" \
     --label="org.nethserver.rootfull=0" \
 	--label="org.nethserver.min-core=3.12.4-0" \
-    --label="org.nethserver.images=docker.io/headscale/headscale:v0.28.0 ghcr.io/gurucomputing/headscale-ui:2026.03.17" \
+    --label="org.nethserver.images=docker.io/headscale/headscale:v0.29.2 ghcr.io/gurucomputing/headscale-ui:2026.03.17" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
