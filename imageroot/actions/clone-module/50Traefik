@@ -11,5 +11,13 @@ import os
 configure_retval = agent.tasks.run(agent_id=os.environ['AGENT_ID'], action='configure-module', data={
     "host": os.environ["TRAEFIK_HOST"],
     "http2https": os.environ["TRAEFIK_HTTP2HTTPS"] == "True",
+    "base_domain": os.environ["BASE_DOMAIN"],
+    "dns_override": os.environ["DNS_OVERRIDE"] == "True",
+    "dns_list": os.environ["DNS_LIST"],
+    "split_dns_list": os.environ["SPLIT_DNS_LIST"],
+    "issuer": os.environ["ISSUER"],
+    "client_id": os.environ["CLIENT_ID"],
+    "client_secret": os.environ["CLIENT_SECRET"],
+    "pkce": os.environ["PKCE"] == "True",
 })
 agent.assert_exp(configure_retval['exit_code'] == 0, "The configure-module subtask failed!")

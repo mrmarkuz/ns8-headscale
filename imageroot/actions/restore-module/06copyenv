@@ -16,6 +16,14 @@ original_environment = request['environment']
 for evar in [
         "TRAEFIK_HOST",
         "TRAEFIK_HTTP2HTTPS",
+        "BASE_DOMAIN",
+        "DNS_OVERRIDE",
+        "DNS_LIST",
+        "SPLIT_DNS_LIST",
+        "ISSUER",
+        "CLIENT_ID",
+        "CLIENT_SECRET",
+        "PKCE",
     ]:
     agent.set_env(evar, original_environment[evar])
 
