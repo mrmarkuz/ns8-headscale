@@ -1,8 +1,11 @@
 {
   "name": "Headscale",
   "description": {
-    "en": "Headscale is an open-source, self-hosted implementation of the Tailscale control server.",
-    "de": "Headscale ist eine selbst gehostete Open Source Implementierung des Tailscale Control Servers."
+    "en": "Headscale is an open-source, self-hosted implementation of the Tailscale control server",
+    "de": "Headscale ist eine quelloffene, selbst gehostete Implementierung des Tailscale-Steuerungsservers",
+    "fr": "Headscale est une implémentation open source, auto-hébergée, du serveur de contrôle de Tailscale",
+    "it": "Headscale è un'implementazione open source, gestita in autonomia, del server di controllo di Tailscale",
+    "es": "Headscale es una implementación de código abierto y autohospedada del servidor de control de Tailscale"
   },
   "categories": ["communication"],
   "authors": [
