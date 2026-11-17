@@ -40,7 +40,7 @@ Take screenshots
     Close Browser
 
 Check if headscale can be configured
-    ${rc} =    Execute Command    api-cli run module/${module_id}/configure-module --data '{}'
+    ${rc} =    Execute Command    api-cli run module/${module_id}/configure-module --data '{"host":"headscale.domain.test","http2https": true,"lets_encrypt": false}'
     ...    return_rc=True  return_stdout=False
     Should Be Equal As Integers    ${rc}  0
 
