@@ -22,6 +22,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/headscale-app.pid \
     --pod-id-file %t/headscale.pod-id --replace -d --name  headscale-app \
     --volume headscale-data:/var/lib/headscale:z \
     --volume ./config.yaml:/etc/headscale/config.yaml:z \
+    --volume ./policy.json:/var/lib/headscale/policy.json:z \
     ${HEADSCALE_IMAGE} serve
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/headscale-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP headscale-app
