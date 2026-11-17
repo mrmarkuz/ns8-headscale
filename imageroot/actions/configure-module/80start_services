@@ -11,7 +11,7 @@ exec 1>&2
 
 # If the control reaches this step, the service can be enabled and started
 
-touch smarthost.env
+touch smarthost.env policy.json
 
 systemctl --user enable headscale.service
 systemctl --user restart headscale.service headscale-app.service headscale-ui.service
