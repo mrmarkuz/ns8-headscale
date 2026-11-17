@@ -12,4 +12,6 @@ set -e
 # Redirect any output to the journal (stderr)
 exec 1>&2
 
+touch policy.json
+
 systemctl --user try-restart headscale.service
