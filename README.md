@@ -25,6 +25,11 @@ Output example:
 
 - It's possible to secure the Headscale UI /web path by adding address restrictions in the HTTP route `headscale1-web`
 
+## Policy
+
+ACLs can be set in the policy.json file, see [Headscale documentation](https://headscale.net/stable/ref/policy/#policy).
+
+    runagent -m headscale1 nano policy.json
 
 ## Uninstall
 
